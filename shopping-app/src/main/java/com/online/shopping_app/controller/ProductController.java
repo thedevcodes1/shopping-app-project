@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.online.shopping_app.model.Product;
 import com.online.shopping_app.service.ProductService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -38,12 +40,12 @@ public class ProductController {
 
 	@PostMapping("/addProduct")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Product addProduct(@RequestBody Product product) {
+	public Product addProduct(@Valid @RequestBody Product product) {
 		return productService.addProduct(product);
 	}
 
 	@PutMapping("updateProduct/{id}")
-	public Product updateProductById(@PathVariable Long id, @RequestBody Product product) {
+	public Product updateProductById(@PathVariable Long id, @Valid @RequestBody Product product) {
 		return productService.updateProductById(id, product);
 	}
 
