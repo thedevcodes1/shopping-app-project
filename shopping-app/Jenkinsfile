@@ -36,6 +36,15 @@ pipeline {
                 }
             }
         }
+
+        stage('Docker Build') {
+            steps {
+                dir('shopping-app') {
+                    bat "docker build -t shopping-app:${env.BUILD_NUMBER} ."
+                    bat 'docker images shopping-app'
+                }
+            }
+        }
     }
 
     post {
