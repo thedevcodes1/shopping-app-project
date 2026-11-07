@@ -49,10 +49,23 @@ pipeline {
         
                             docker buildx version
         
-                            docker buildx build --platform linux/amd64 --push -t thedevcodes1/product-service:%BUILD_NUMBER% .
+                            docker buildx build --platform linux/amd64 --push -t thedevcodes1/product-service:%BUILD_NUMBER% -t thedevcodes1/product-service:latest .
                             '''
                         }
                     }
+                }
+            }
+        }
+
+        stage('Deploy to Render') {
+            steps {
+                withCredentials([string(
+                    credentialsId: 'render-deploy-hook',
+                    variable: 'RENDER_DEPLOY_HOOK'
+                )]) {
+                    bat '''
+                        curl.exe --fail --silent --show-error -X POST "%RENDER_DEPLOY_HOOK%"
+                    '''
                 }
             }
         }
